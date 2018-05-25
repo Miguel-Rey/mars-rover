@@ -10,18 +10,36 @@ var grid =[
 	[null, null, "rock", null, null, null, null, null, null, null],
 	[null, null, null, null, null, null, null, null, null, null],
 	["rock", null, null, null, null, null, null, "rock", null, null],
-	[null, null, null, null, "rock", null, null, null, null, null]
+	[null, null, null, null, "rock", null, null, null, null, null],
 ]
+
+
+/* CARDINAL POINTS SCHEME
+
+			 S
+
+ W   grid    E
+
+			 N
+*/
 
 // Rover Object Goes Here
 // ======================
 
-var rover = {
+var rover1 = {
+	name: "Rover 1",
 	direction: "N",
-	x: 0,
 	y: 0,
-	travelLog: [],
-	position: [0,0]
+	x: 0,
+	travelLog: []
+}
+
+var rover2 = {
+	name: "Rover 2",
+	direction: "W",
+	y: 7,
+	x: 9,
+	travelLog: []
 }
 
 // ======================
@@ -64,31 +82,55 @@ function turnRight(rover){
 }
 
 function moveForward(rover){
-  console.log("moveForward was called");
-  if(rover.direction === "N" && rover.y > 0){
-  	rover.y -= 1;
+	console.log("moveForward was called");
+  if(rover.direction === "N" && rover.y >= 0){
+  	rover.y += 1;
   }else if(rover.direction ==="S" && rover.y < 10){
-  	rover.y +=1;
-  }else if(rover.direction ==="W" && rover.x > 0){
+  	rover.y -=1;
+  }else if(rover.direction ==="W" && rover.x >= 0){
   	rover.x -=1;
   }else if(rover.direction ==="E" && rover.x < 10){
   	rover.x +=1;
 	}
-	rover.travelLog.push([rover.x,rover.y]);
+	if(isObstacle(rover.x,rover.y)){
+		if(rover.direction === "N" && rover.y >= 0){
+			rover.y -= 1;
+		}else if(rover.direction ==="S" && rover.y < 10){
+			rover.y +=1;
+		}else if(rover.direction ==="W" && rover.x >= 0){
+			rover.x +=1;
+		}else if(rover.direction ==="E" && rover.x < 10){
+			rover.x -=1;
+		}
+	}else{
+		rover.travelLog.push([rover.y,rover.x]);
+	}
 }
 
 function moveBackward(rover){
   console.log("moveBackward was called");
   if(rover.direction === "N" && rover.y < 10){
-  	rover.y += 1;
+  	rover.y -= 1;
   }else if(rover.direction ==="S" && rover.y > 0){
-  	rover.y -=1;
+  	rover.y +=1;
   }else if(rover.direction ==="W" && rover.x < 10){
   	rover.x +=1;
   }else if(rover.direction ==="E" && rover.x > 0){
   	rover.x -=1;
 	}
-	rover.travelLog.push([rover.x,rover.y]);
+	if(isObstacle(rover.x,rover.y)){
+		if(rover.direction === "N" && rover.y > 0){
+			rover.y += 1;
+		}else if(rover.direction ==="S" && rover.y < 10){
+			rover.y -=1;
+		}else if(rover.direction ==="W" && rover.x > 0){
+			rover.x -=1;
+		}else if(rover.direction ==="E" && rover.x < 10){
+			rover.x +=1;
+		}
+	}else{
+		rover.travelLog.push([rover.y,rover.x]);
+	}
 }
 
 function displayTravelLog(rover){
@@ -96,14 +138,22 @@ function displayTravelLog(rover){
 	for(var i= 0; i < rover.travelLog.length; i++){
 		message += "[" + rover.travelLog[i] + "], ";
 	}
-	console.log("Travel Log - Rover has been in positions: " + message.slice(0,-2));
+	console.log("Travel Log - "+ rover.name +" has been in positions: " + message.slice(0,-2));
 }
 
 function displayPosition(rover){
-	console.log("Rover position: [" + [rover.x,rover.y]+ "]");
+	console.log(rover.name +" position: [" + [rover.y,rover.x]+ "]");
 }
 
-function commands(string){
+function isObstacle(x,y){
+	if(grid[y][x] !== null ){
+		console.log("Obstacle - There is a "+ grid[y][x] +" on the way!");
+		return true;
+	}
+	return false;
+}
+
+function commands(rover, string){
 	for(var i= 0; i < string.length; i++){
 		if(string[i] ==="r"){
 			turnRight(rover);
@@ -119,6 +169,9 @@ function commands(string){
 	}
 	displayTravelLog(rover);
 	displayPosition(rover);
+	grid[rover.y][rover.x]= rover.name;
 }
 
-commands("rfffrfff");
+commands(rover1, "ffffffff");
+
+commands(rover2, "fffffffff");
