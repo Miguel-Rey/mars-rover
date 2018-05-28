@@ -31,7 +31,7 @@ var rover1 = {
 	direction: "N",
 	y: 0,
 	x: 0,
-	travelLog: []
+	travelLog: [[0,0]]
 }
 
 var rover2 = {
@@ -103,10 +103,11 @@ function moveForward(rover){
 			rover.x -=1;
 		}
 	}else{
-    console.log(rover.travelLog[rover.travelLog.length-1]);
-		console.log([rover.y,rover.x]);
-		if(rover.travelLog[rover.travelLog.length-1] !== [rover.y,rover.x]){
-      console.log("se añade");
+    var lastLogY= rover.travelLog[rover.travelLog.length-1][0];
+		var lastLogX = rover.travelLog[rover.travelLog.length-1][1];
+		if(lastLogY === rover.y && lastLogX === rover.x){
+			
+		}else{
 			rover.travelLog.push([rover.y,rover.x]);
 		}
 	}
@@ -134,10 +135,11 @@ function moveBackward(rover){
 			rover.x +=1;
 		}
 	}else{
-    console.log(rover.travelLog[rover.travelLog.length-1]);
-		console.log([rover.y,rover.x]);
-		if(rover.travelLog[rover.travelLog.length-1] !== [rover.y,rover.x]){
-			console.log("se añade");
+		var lastLogY= rover.travelLog[rover.travelLog.length-1][0];
+		var lastLogX = rover.travelLog[rover.travelLog.length-1][1];
+		if(lastLogY === rover.y && lastLogX === rover.x){
+			
+		}else{
 			rover.travelLog.push([rover.y,rover.x]);
 		}
 	}
