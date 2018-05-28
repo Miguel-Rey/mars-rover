@@ -18,7 +18,7 @@ var grid =[
 
 			 S
 
- W   grid    E
+ E   grid    W
 
 			 N
 */
@@ -83,53 +83,63 @@ function turnRight(rover){
 
 function moveForward(rover){
 	console.log("moveForward was called");
-  if(rover.direction === "N" && rover.y >= 0){
+  if(rover.direction === "N" && rover.y < 9){
   	rover.y += 1;
-  }else if(rover.direction ==="S" && rover.y < 10){
+  }else if(rover.direction ==="S" && rover.y > 0){
   	rover.y -=1;
-  }else if(rover.direction ==="W" && rover.x >= 0){
+  }else if(rover.direction ==="W" && rover.x > 0){
   	rover.x -=1;
-  }else if(rover.direction ==="E" && rover.x < 10){
+  }else if(rover.direction ==="E" && rover.x < 9){
   	rover.x +=1;
 	}
 	if(isObstacle(rover.x,rover.y)){
-		if(rover.direction === "N" && rover.y >= 0){
+		if(rover.direction === "N"){
 			rover.y -= 1;
-		}else if(rover.direction ==="S" && rover.y < 10){
+		}else if(rover.direction ==="S"){
 			rover.y +=1;
-		}else if(rover.direction ==="W" && rover.x >= 0){
+		}else if(rover.direction ==="W"){
 			rover.x +=1;
-		}else if(rover.direction ==="E" && rover.x < 10){
+		}else if(rover.direction ==="E"){
 			rover.x -=1;
 		}
 	}else{
-		rover.travelLog.push([rover.y,rover.x]);
+    console.log(rover.travelLog[rover.travelLog.length-1]);
+		console.log([rover.y,rover.x]);
+		if(rover.travelLog[rover.travelLog.length-1] !== [rover.y,rover.x]){
+      console.log("se añade");
+			rover.travelLog.push([rover.y,rover.x]);
+		}
 	}
 }
 
 function moveBackward(rover){
   console.log("moveBackward was called");
-  if(rover.direction === "N" && rover.y < 10){
+  if(rover.direction === "N" && rover.y > 0){
   	rover.y -= 1;
-  }else if(rover.direction ==="S" && rover.y > 0){
+  }else if(rover.direction ==="S" && rover.y < 9){
   	rover.y +=1;
-  }else if(rover.direction ==="W" && rover.x < 10){
+  }else if(rover.direction ==="W" && rover.x < 9){
   	rover.x +=1;
   }else if(rover.direction ==="E" && rover.x > 0){
   	rover.x -=1;
 	}
 	if(isObstacle(rover.x,rover.y)){
-		if(rover.direction === "N" && rover.y > 0){
+		if(rover.direction === "N"){
 			rover.y += 1;
-		}else if(rover.direction ==="S" && rover.y < 10){
+		}else if(rover.direction ==="S"){
 			rover.y -=1;
-		}else if(rover.direction ==="W" && rover.x > 0){
+		}else if(rover.direction ==="W"){
 			rover.x -=1;
-		}else if(rover.direction ==="E" && rover.x < 10){
+		}else if(rover.direction ==="E"){
 			rover.x +=1;
 		}
 	}else{
-		rover.travelLog.push([rover.y,rover.x]);
+    console.log(rover.travelLog[rover.travelLog.length-1]);
+		console.log([rover.y,rover.x]);
+		if(rover.travelLog[rover.travelLog.length-1] !== [rover.y,rover.x]){
+			console.log("se añade");
+			rover.travelLog.push([rover.y,rover.x]);
+		}
 	}
 }
 
@@ -172,6 +182,4 @@ function commands(rover, string){
 	grid[rover.y][rover.x]= rover.name;
 }
 
-commands(rover1, "ffffffff");
-
-commands(rover2, "fffffffff");
+commands(rover1, "ffbbrrxxffffff");
